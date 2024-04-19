@@ -1,0 +1,19 @@
+name: aws-ecr-create-docker-image-and-push
+description: "test de imagen"
+author: 'RAcl'
+branding:
+  icon: 'box'
+  color: 'blue'
+inputs:
+  params:
+    description: 'The docker build extra parameters'
+    required: true
+    default: ""
+outputs:
+  IMAGE:
+    description: 'Full Image and Tag Path'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+  args:
+    - ${{ inputs.params }}
