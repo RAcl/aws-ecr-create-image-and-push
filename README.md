@@ -8,8 +8,7 @@ This is a GitHub Docker Action.
 ## USE:
 
 
-
-Please, define next env vars:
+Please, you need to define next env vars:
 
 | env var | description |default|
 |--|--|--|
@@ -20,7 +19,7 @@ Please, define next env vars:
 |LATEST|latest generic image repo tag, example: latest-staging|latest|
 |IMAGE_TAG|uniq image repo tag|first 7 characters from sha|
 
-See "build-image" part in the example.
+See the "build-image" part in the example.
 
 ```yaml
 name: example
@@ -51,9 +50,6 @@ jobs:
         steps:
           - name: Checkout
             uses: actions/checkout@v4
-
-          - name: Contexto
-            run: echo "${{ toJson(github) }}"
 
           - name: test git ref
             id: check-ref
