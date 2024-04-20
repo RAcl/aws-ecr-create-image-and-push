@@ -34,7 +34,7 @@ fi
 TAG_SHA=$(echo $GITHUB_SHA | cut -c 1-7)
 
 [ -n "${AWS_REPOSITORY}" ]&&ECR_REPO="${AWS_REPOSITORY}"||ECR_REPO="${GITHUB_REPOSITORY}"
-[ -n "${LATEST}" ]&&LATEST="latest"
+[ -n "${LATEST}" ]||LATEST="latest"
 [ -n "${IMAGE_TAG}" ]&&REPOTAG="${IMAGE_TAG}"||REPOTAG="${TAG_SHA}"
 
 sh -c "docker build -t ${ECR_REPO}:${TAG_SHA} $* ."
