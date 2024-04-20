@@ -1,0 +1,13 @@
+#!/bin/sh
+
+DKR_SRV=$1
+ECR_REPO=$2
+LATEST=$3
+REPOTAG=$4
+
+docker tag $ECR_REPO:latest $DKR_SRV/$ECR_REPO:$LATEST
+docker tag $ECR_REPO:latest $DKR_SRV/$ECR_REPO:$REPOTAG
+docker push $DKR_SRV/$ECR_REPO:$LATEST
+docker push $DKR_SRV/$ECR_REPO:$REPOTAG
+echo "IMAGE=$DKR_SRV/$ECR_REPO:$REPOTAG" >> $GITHUB_OUTPUT
+echo $DKR_SRV/$ECR_REPO:$REPOTAG
