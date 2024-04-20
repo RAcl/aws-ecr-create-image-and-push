@@ -65,6 +65,8 @@ jobs:
         outputs:
             IMAGE: ${{ steps.build-image.outputs.IMAGE }}
         steps:
+          - name: Checkout
+            uses: actions/checkout@v4
           - name: build-image
             id: build-image
             uses: RAcl/aws-ecr-create-image-and-push@v1
@@ -75,8 +77,9 @@ jobs:
                 AWS_REPOSITORY: ${{ env.repo }}
                 LATEST: ${{ needs.check.outputs.LATEST }}
                 IMAGE_TAG: ${{ needs.check.outputs.TAG }}
-            with:
-                params: --build-arg="ENV=${{ needs.check.outputs.ENV }}"
+            run: |
+                curl -fsSL https://raw.githubusercontent.com/RAcl/aws-ecr-create-image-and-push/main/entrypoint.sh -o build.sh
+                sh build.sh --build-arg="ENVIRON=${{needs.check.outputs.ENV}}"
 ```
 
 
