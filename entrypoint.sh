@@ -8,20 +8,14 @@ KEY_ID=$(echo ${AWS_ACCESS_KEY_ID} | sed 's/.\{16\}/****************/g')
 echo "Use KEY_ID: ${KEY_ID}"
 
 # create workdirs
-mkdir -p ~/{.aws,.kube}
+# mkdir -p ~/{.aws,.kube}
 
 # create AWS's config files
-cat > ~/.aws/credentials << EOF_CRED
-[default]
-aws_accesss_key_id = ${AWS_ACCESS_KEY_ID}
-aws_secret_accesss_key = ${AWS_SECRET_ACCESS_KEY}
-EOF_CRED
-
-cat > ~/.aws/config << EOF_CFG
-[default]
-region = ${AWS_DEFAULT_REGION}
-output = ${AWS_DEFAULT_OUTPUT}
-EOF_CFG
+# cat > ~/.aws/credentials << EOF_CRED
+# [default]
+# aws_accesss_key_id = ${AWS_ACCESS_KEY_ID}
+# aws_secret_accesss_key = ${AWS_SECRET_ACCESS_KEY}
+# EOF_CRED
 
 AccountID=$(aws sts get-caller-identity | grep Account | awk -F'"' '{print $4}')
 
@@ -33,6 +27,8 @@ aws ecr get-login-password --region $AWS_DEFAULT_REGION | docker login --usernam
 if [ $? != 0 ]; then
     echo "Error Login to AWS ECR"
     exit 1
+else
+    echo "AWS ECR login OK"
 fi
 
 TAG_SHA=$(echo $GITHUB_SHA | cut -c 1-7)
@@ -41,7 +37,7 @@ TAG_SHA=$(echo $GITHUB_SHA | cut -c 1-7)
 [ -n "${LATEST}" ]&&LATEST="latest"
 [ -n "${IMAGE_TAG}" ]&&REPOTAG="${IMAGE_TAG}"||REPOTAG="${TAG_SHA}"
 
-sudo -c "docker build -t ${ECR_REPO}:${TAG_SHA} $* ."
+sh -c "docker build -t ${ECR_REPO}:${TAG_SHA} $* ."
 if [ $? != 0 ]; then
     echo "Error bad construction \"docker build -t ${ECR_REPO}:${TAG_SHA} $* .\""
     exit 1
