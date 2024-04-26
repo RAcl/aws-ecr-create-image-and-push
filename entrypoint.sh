@@ -39,5 +39,5 @@ docker push $DKR_SRV/$ECR_REPO:$REPOTAG
 echo "IMAGE=$DKR_SRV/$ECR_REPO:$REPOTAG" >> $GITHUB_OUTPUT
 
 # informar
-echo "publish ${DKR_SRV}/${ECR_REPO}:${$LATEST}"
+# echo "publish ${DKR_SRV}/${ECR_REPO}:${$LATEST}"
 echo "export IMAGE=${DKR_SRV}/${ECR_REPO}:${REPOTAG}"
